@@ -123,3 +123,13 @@ def import_from_api():
             "price": payload.get("price", 0), "stock": payload.get("stock", 0)}
     data.inventory.append(item)
     return jsonify(item), 201
+
+
+@bp.get("/inventory/low-stock")
+def low_stock():
+    """Items with stock at or below ?threshold= (default 10)."""
+    try:
+        threshold = int(request.args.get("threshold", 10))
+    except ValueError:
+        return _error("threshold must be an integer", 400)
+    return jsonify([i for i in data.inventory if i["stock"] <= threshold]), 200

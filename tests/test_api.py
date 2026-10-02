@@ -116,3 +116,14 @@ def test_import_requires_barcode(client):
 def test_import_not_found(mock_fetch, client):
     r = client.post("/inventory/import", json={"barcode": "000"})
     assert r.status_code == 404
+
+
+# ----- Low stock -----
+def test_low_stock(client):
+    r = client.get("/inventory/low-stock?threshold=30")
+    assert r.status_code == 200
+    assert [i["id"] for i in r.get_json()] == [4]
+
+
+def test_low_stock_invalid_threshold(client):
+    assert client.get("/inventory/low-stock?threshold=abc").status_code == 400
