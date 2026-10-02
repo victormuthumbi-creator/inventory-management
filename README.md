@@ -96,3 +96,8 @@ You can also try the API in Postman or with curl:
 curl -X PATCH http://127.0.0.1:5000/inventory/1 \
      -H "Content-Type: application/json" -d '{"stock": 10}'
 ```
+
+## Extra endpoint
+
+`GET /inventory/low-stock?threshold=10` returns items whose stock is at or
+below the threshold (default 10).
